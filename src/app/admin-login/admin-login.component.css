@@ -1,0 +1,38 @@
+.loginRoot {
+    position: absolute;
+    /* background-color: bisque; */
+    height: 100%;
+    width: 100%;
+}
+
+.loginHead {
+    margin: 5% auto;
+    height: 280px;
+    width: 400px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0px 1px 5px 3px #d2c3c3;
+}
+
+.loginSection {
+    width: 85%;
+    margin: 10px auto;
+}
+
+.loginName {
+    width: 100%;
+    margin: 5px 0px;
+}
+
+.loginName input {
+    font-family: sans-serif;
+}
+
+.loginPassword {
+    width: 100%;
+    margin: 5px 0px;
+}
+
+.LoginTitle {
+    height: 55px;
+}

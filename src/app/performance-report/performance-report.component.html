@@ -1,0 +1,79 @@
+<div class="header">
+    <div class="collegeLogo">
+        <!-- <img src="/assets//media/bcrec-header.jpg"> -->
+    </div>
+    <div class="logout">
+        <button mat-flat-button (click)="onLogoutUser();">Logout</button>
+    </div>
+</div>
+<div style="padding:10px 10px 0px 10px;">
+    <div style="width:100%;display: inline-flex;text-align: center;box-shadow:-2px 0px 5px 0px rgba(0, 0, 0, .2), 0 0px 0px 0px rgba(0, 0, 0, .14), 2px 0px 5px 0px rgba(0, 0, 0, .12);">
+        <div style="width: 50%;padding-top:10px;">
+            <mat-form-field style="margin: 0px 50px 0px 0px;width: 45%;float: right;">
+                <mat-select placeholder="Select Company">
+                    <mat-option *ngFor="let company of subjectChapters; let c = index;" [value]="company.id" (onSelectionChange)="onCompanySelected(company, c, $event);"> {{ company.name }} </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div style="width: 50%;padding-top:10px;">
+            <mat-form-field style="margin: 0px 50px 0px 0px;width: 45%;float: left;">
+                <mat-select placeholder="Select Placement Paper">
+                    <mat-option *ngFor="let test of chapterList; let t = index;" [value]="test.id" (onSelectionChange)="onTestSelected(test, t, $event);"> {{ test.name }} </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+    <!-- <span (click)="onLogoutUser();">        [Logout]    </span> -->
+</div>
+<ng-template #templateRef let-branchName="branchName" let-branchReport>
+    <mat-tab-group class="categoryTab" [selectedIndex]="activeTab1">
+        <mat-tab label="{{studCategory.toUpperCase()}}" *ngFor="let studCategory of Object.keys(branchReport); let i = index;">
+            <ng-template matTabContent>
+                <div class="filterDiv">
+                    <mat-form-field class="filterField">
+                        <input matInput (keyup)="applyFilter($event.target.value, branchReport[studCategory])" placeholder="Search Students">
+                    </mat-form-field>
+                </div>
+                <div>
+                    <table mat-table (matSortChange)="sortData(branchReport[studCategory], studCategory, branchName, $event)" [dataSource]="branchReport[studCategory]" matSort class="mat-elevation-z8" class="reportTable">
+                        <ng-container matColumnDef="emailId" class="reportHeader head">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="reportHeader email">Email Id </th>
+                            <td mat-cell *matCellDef="let element" class="reportCell email">{{(element.emailId).toLowerCase()}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="totalQuestions">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="reportHeader totalQues">Total Questions </th>
+                            <td mat-cell *matCellDef="let element" class="reportCell">{{element.totalQuestions}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="attempted">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="reportHeader attempted">Attempted </th>
+                            <td mat-cell *matCellDef="let element" class="reportCell">{{element.attempted}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="correctAnswered">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="reportHeader  correctAns">Correct Answered </th>
+                            <td mat-cell *matCellDef="let element" class="reportCell">{{element.correctAnswered}} </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                </div>
+            </ng-template>
+        </mat-tab>
+    </mat-tab-group>
+</ng-template>
+<div class="reportPanel" [hidden]="!reportPanelState">
+    <mat-tab-group class="branchTab" [selectedIndex]="activeTab2">
+        <!-- [hidden]="!reportPanelState" -->
+        <mat-tab label="{{branch}}" *ngFor="let branch of Object.keys(finalReportData);">
+            <ng-template matTabContent>
+                <div [hidden]="!expPanelState" style="width: 650px; height: 200px;margin:0 auto;">
+                    <google-chart [data]="pieChartArr[branch]" (click)="onClickPie($event);"></google-chart>
+                </div>
+                <div>
+                    <ng-container *ngTemplateOutlet="templateRef; context: {$implicit: finalReportData[branch], branchName: branch}"></ng-container>
+                </div>
+                <div [hidden]="!expPanelState" style="border: 1px solid #ded5d5;display: none;"> </div>
+            </ng-template>
+        </mat-tab>
+    </mat-tab-group>
+</div>
+<div class="loader" [hidden]="!loaderState"></div>

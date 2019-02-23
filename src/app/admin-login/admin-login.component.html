@@ -1,0 +1,23 @@
+<div class="header">
+    <!-- <img src="/assets//media/bcrec-header.jpg"> -->
+</div>
+<div class="loginRoot">
+    <div class="loginHead">
+        <div class="LoginTitle" style="color:white; background-color:#757575;">
+            <p style="text-align: center;display: inline-block;width: 100%;font-weight: bold;font-family: sans-serif;margin: 20px 0px;">
+                Admin Login </p>
+        </div>
+        <div class="loginSection">
+            <form (ngSubmit)="onSubmitLogin();">
+                <mat-form-field class="loginName">
+                    <input matInput placeholder="Email" type="email" value="" [(ngModel)]="loginDetails.email" required name="email">
+                </mat-form-field>
+                <mat-form-field class="loginPassword">
+                    <input matInput placeholder="Password" type="password" value="" [(ngModel)]="loginDetails.password" required name="password">
+                </mat-form-field>
+                <button mat-button type="submit" style="background-color: #46464a;color: white;font-weight: bold;display: grid;width: 35%;margin: 0 auto;">Login</button>
+                <span *ngIf="loginStatus.length" style="color:red;">{{loginStatus}} </span>
+            </form>
+        </div>
+    </div>
+</div>
